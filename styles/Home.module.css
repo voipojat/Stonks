@@ -1,8 +1,21 @@
 .container {
-  
+  margin: 0 auto;
   height: 50vh;
   width: 100vh;
-
+}
+.container h2 {
+  text-align: center;
+  margin-top: 10vh;
+}
+.form {
+  text-align: center;
+  margin-top: 7vh;
+  margin-bottom: 10vh;
+}
+.form input {
+  vertical-align: middle;
 }
 
-
+.form button{
+  margin-left: 4px;
+}

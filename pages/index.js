@@ -5,23 +5,20 @@ import {Line} from 'react-chartjs-2'
 import useInputState from '../hooks/useInputState'
 import styles from '../styles/Home.module.css'
 
-
-
-const INTERVAL = '5min'
-
 export default function Home() {
 
   const [xValues, setxValues] = useState([])
   const [yValues, setyValues] = useState([])
+  const [visibility, showTicker] = useState()
   const [ticker, handleChange] = useInputState("")
   const [chartData, updataChartData] = useState()
 
 
   useEffect(() => {
-    let data2 = {
+   
+    let tickerData = {
       labels: xValues,
-      datasets: [
-        {
+      datasets: [{
           label: 'Price',
           fill: false,
           lineTension: 0.1,
@@ -41,17 +38,16 @@ export default function Home() {
           pointRadius: 1,
           pointHitRadius: 10,
           data: yValues
-        }
-      ]
+      }]
     };
-    updataChartData(data2)
+    updataChartData(tickerData)
 
   }, [xValues, yValues])
 
-  async function handleClick(evt){
+  async function handleSubmit(evt){
     evt.preventDefault()
     const key = 'RRW060739R2RO40L'
-    let url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=${INTERVAL}&symbol=${ticker}&apikey=${key}`
+    let url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${key}`
     let data = await axios.get(url)
 
     let x = []
@@ -59,27 +55,37 @@ export default function Home() {
   
     let priceData = data.data
     
-    for(let key in priceData[`Time Series (${INTERVAL})`]){
-      let keyParts = key.split(' ')
-      x.push(keyParts[1])
-      y.push(priceData[`Time Series (${INTERVAL})`][key]['1. open'])
+    for(let key in priceData[`Time Series (Daily)`]){
+
+      x.push(key)
+      y.push(priceData[`Time Series (Daily)`][key]['4. close'])
       
     }
-    setxValues(x.reverse())
-    setyValues(y)
+    setxValues(x.slice(0, 7).reverse())
+    setyValues(y.slice(0, 7).reverse())
+    showTicker(ticker)
   }
 
   return (
     
-    <div className={styles.container} width="30%">
+    <div className={styles.container} >
       <Head>
         <title>Stonks</title>
         <link rel="icon" href="/favicon.ico" />
+        <link 
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+         rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+         crossorigin="anonymous">
+         </link>
       </Head>
-      <form>
-      <input onChange={handleChange}></input>
-      <button onClick={handleClick} type="submit">plop</button>
+      <h2>Price action of last 7 days</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+      <input onChange={handleChange} placeholder="Ticker Symbol"/>
+      <button type="button" className="btn btn-dark">Search</button>
+      
       </form>
+      <div>Ticker: {visibility !== undefined ? visibility.toUpperCase(): null}</div>
+      
       <Line
       data={chartData}
       options={{ maintainAspectRatio: false }}
