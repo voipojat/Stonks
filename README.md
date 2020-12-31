@@ -1,3 +1,17 @@
+Working in progress..
+
+An app where you can search price action of different stocks.
+This is just a simple demo, but in the coming weeks I will add a login page
+where you can create an user and create a watchlist. 
+
+Made with React and Next.js
+
+
+<img src="https://i.gyazo.com/ed16b68eea9646c20063f51ac326aa64.png" alt="Image from Gyazo" width="375"/>
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
