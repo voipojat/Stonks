@@ -2,7 +2,7 @@ Working in progress..
 
 An app where you can search price action of different stocks.
 This is just a simple demo, but in the coming weeks I will add a login page
-where you can create an user and create a watchlist. 
+where you can create a user and create a watchlist. 
 
 Made with React and Next.js
 
